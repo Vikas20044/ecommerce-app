@@ -1,9 +1,7 @@
 package com.vikas.simple_ecommerce.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 
 
 import java.math.BigDecimal;
@@ -13,32 +11,23 @@ import java.util.Date;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productID;
+    private Integer productID;
     private String productName;
     private String description;
     private String brand;
     private BigDecimal price;
     private String category;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date releaseDate;
     private boolean available;
-    private int quantity;
+    private Integer quantity;
 
-    public Product() {
-    }
+    private String imageName;
+    private String imageType;
+    @Lob
+    private byte[] imageData;
 
-    public Product(int productID, String productName, String description, String brand, BigDecimal price, String category, Date releaseDate, boolean available, int quantity) {
-        this.productID = productID;
-        this.productName = productName;
-        this.description = description;
-        this.brand = brand;
-        this.price = price;
-        this.category = category;
-        this.releaseDate = releaseDate;
-        this.available = available;
-        this.quantity = quantity;
-    }
-
-    public int getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
@@ -102,11 +91,57 @@ public class Product {
         this.available = available;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public Product() {
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public Product(Integer productID, String productName, String description, String brand, BigDecimal price, String category, Date releaseDate, boolean available, Integer quantity, String imageName, String imageType, byte[] imageData) {
+        this.productID = productID;
+        this.productName = productName;
+        this.description = description;
+        this.brand = brand;
+        this.price = price;
+        this.category = category;
+
+        this.releaseDate = releaseDate;
+        this.available = available;
+        this.quantity = quantity;
+        this.imageName = imageName;
+        this.imageType = imageType;
+        this.imageData = imageData;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+
+
 }

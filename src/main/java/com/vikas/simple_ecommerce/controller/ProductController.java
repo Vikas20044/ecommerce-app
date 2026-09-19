@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductByID(@PathVariable int id){
         Product product = productService.getProductByID(id);
         if(product!=null){
@@ -31,6 +32,18 @@ public class ProductController {
         } else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+    }
+
+    @PostMapping("/product")
+    public ResponseEntity<?> addProduct(@RequestPart Product product, @RequestPart MultipartFile imageFile){
+        try{
+            Product savedProduct = productService.addProduct(product,imageFile);
+            return new ResponseEntity<>(product,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
 
     }
 }
